@@ -6,7 +6,8 @@
   "keywords": [
     "winston",
     "newrelic",
-    "winston-transport"
+    "winston-transport",
+    "winston-newrelic"
   ],
   "author": {
     "name": "Aldi Permana Etika Putra",
