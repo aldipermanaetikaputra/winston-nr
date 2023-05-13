@@ -2,16 +2,16 @@
 import { jest } from '@jest/globals';
 import nock from 'nock';
 import zlib from 'zlib';
-import NewRelicWinstonTransport from '../src/NewRelicWinstonTransport.js';
+import NewRelicTransport from './NewRelicTransport.js';
 
-describe('NewRelicWinstonTransport', () => {
+describe('NewRelicTransport', () => {
   afterEach(() => {
     nock.cleanAll();
   });
 
   it('should send log to New Relic API', async () => {
     const scope = nock('https://example.com').post('/logs').times(1).reply(202);
-    const transport = new NewRelicWinstonTransport({
+    const transport = new NewRelicTransport({
       apiUrl: 'https://example.com/logs',
       apiKey: 'API_KEY',
     });
@@ -34,7 +34,7 @@ describe('NewRelicWinstonTransport', () => {
       .post('/logs')
       .times(1)
       .replyWithError('Request failed');
-    const transport = new NewRelicWinstonTransport({
+    const transport = new NewRelicTransport({
       apiUrl: 'https://example.com/logs',
       apiKey: 'API_KEY',
     });
@@ -57,7 +57,7 @@ describe('NewRelicWinstonTransport', () => {
 
   it('should handle unexpected status code', async () => {
     const scope = nock('https://example.com').post('/logs').times(1).reply(500);
-    const transport = new NewRelicWinstonTransport({
+    const transport = new NewRelicTransport({
       apiUrl: 'https://example.com/logs',
       apiKey: 'API_KEY',
     });
@@ -81,7 +81,7 @@ describe('NewRelicWinstonTransport', () => {
   it('should handle retries', async () => {
     const scopeError = nock('https://example.com').post('/logs').times(1).reply(500);
     const scopeSuccess = nock('https://example.com').post('/logs').times(1).reply(202);
-    const transport = new NewRelicWinstonTransport({
+    const transport = new NewRelicTransport({
       apiUrl: 'https://example.com/logs',
       apiKey: 'API_KEY',
       retries: 1,
@@ -107,7 +107,7 @@ describe('NewRelicWinstonTransport', () => {
 
   it('should handle max retries', async () => {
     const scope = nock('https://example.com').post('/logs').times(11).reply(500);
-    const transport = new NewRelicWinstonTransport({
+    const transport = new NewRelicTransport({
       apiUrl: 'https://example.com/logs',
       apiKey: 'API_KEY',
       retries: 10,
@@ -133,7 +133,7 @@ describe('NewRelicWinstonTransport', () => {
     const compressedLog = Buffer.from('compressed log');
     const gzipSpy = jest.spyOn(zlib, 'gzipSync').mockReturnValue(compressedLog);
     const scope = nock('https://example.com').post('/logs', compressedLog).reply(202, 'OK');
-    const transport = new NewRelicWinstonTransport({
+    const transport = new NewRelicTransport({
       apiUrl: 'https://example.com/logs',
       apiKey: 'YOUR_API_KEY',
       compression: true,
@@ -161,7 +161,7 @@ describe('NewRelicWinstonTransport', () => {
       .post('/logs')
       .delay(5000) // Delay the response to trigger a timeout
       .reply(202);
-    const transport = new NewRelicWinstonTransport({
+    const transport = new NewRelicTransport({
       apiUrl: 'https://example.com/logs',
       apiKey: 'YOUR_API_KEY',
       timeout: 100,
@@ -189,7 +189,7 @@ describe('NewRelicWinstonTransport', () => {
       .delay(5000) // Delay the response to trigger a timeout
       .reply(202);
     const scopeSuccess = nock('https://example.com').post('/logs').reply(202);
-    const transport = new NewRelicWinstonTransport({
+    const transport = new NewRelicTransport({
       apiUrl: 'https://example.com/logs',
       apiKey: 'YOUR_API_KEY',
       timeout: 100,
@@ -216,7 +216,7 @@ describe('NewRelicWinstonTransport', () => {
 
   it('should handle logs without a timestamp', async () => {
     const scope = nock('https://example.com').post('/logs').reply(202);
-    const transport = new NewRelicWinstonTransport({
+    const transport = new NewRelicTransport({
       apiUrl: 'https://example.com/logs',
       apiKey: 'YOUR_API_KEY',
     });
@@ -239,7 +239,7 @@ describe('NewRelicWinstonTransport', () => {
 
   it('should flush the queue when the exact batch size is reached', async () => {
     const scope = nock('https://example.com').post('/logs').times(1).reply(202);
-    const transport = new NewRelicWinstonTransport({
+    const transport = new NewRelicTransport({
       apiUrl: 'https://example.com/logs',
       apiKey: 'YOUR_API_KEY',
       batchSize: 3,
@@ -270,7 +270,7 @@ describe('NewRelicWinstonTransport', () => {
 
   it('should flush the queue when batch timeout is reached', async () => {
     const scope = nock('https://example.com').post('/logs').times(1).reply(202);
-    const transport = new NewRelicWinstonTransport({
+    const transport = new NewRelicTransport({
       apiUrl: 'https://example.com/logs',
       apiKey: 'YOUR_API_KEY',
       batchTimeout: 500,
@@ -292,7 +292,7 @@ describe('NewRelicWinstonTransport', () => {
 
   it('should reset the batch timeout when new logs are added', async () => {
     const scope = nock('https://example.com').post('/logs').times(1).reply(202);
-    const transport = new NewRelicWinstonTransport({
+    const transport = new NewRelicTransport({
       apiUrl: 'https://example.com/logs',
       apiKey: 'YOUR_API_KEY',
       batchTimeout: 1000,
@@ -324,7 +324,7 @@ describe('NewRelicWinstonTransport', () => {
 
   it('should flush the queue on _final', done => {
     const scope = nock('https://example.com').post('/logs').reply(202);
-    const transport = new NewRelicWinstonTransport({
+    const transport = new NewRelicTransport({
       apiUrl: 'https://example.com/logs',
       apiKey: 'YOUR_API_KEY',
       batchSize: 10,
@@ -347,7 +347,7 @@ describe('NewRelicWinstonTransport', () => {
   it('should flush the queue when batch size or timeout is reached', async () => {
     let scope = nock('https://example.com').post('/logs').times(1).reply(202);
 
-    const transport = new NewRelicWinstonTransport({
+    const transport = new NewRelicTransport({
       apiUrl: 'https://example.com/logs',
       apiKey: 'YOUR_API_KEY',
       batchSize: 2, // Set batch size to 2 for testing
@@ -391,7 +391,7 @@ describe('NewRelicWinstonTransport', () => {
 
   it('should flush the queue and resolve _final without error', async () => {
     const scope = nock('https://example.com').post('/logs').reply(202);
-    const transport = new NewRelicWinstonTransport({
+    const transport = new NewRelicTransport({
       apiUrl: 'https://example.com/logs',
       apiKey: 'YOUR_API_KEY',
       batchSize: 10,
