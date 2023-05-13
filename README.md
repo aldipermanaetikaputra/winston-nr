@@ -1,16 +1,16 @@
-# Winston New Relic Transport
+# Winston NewRelic Transport
 
 [![NPM Version](https://img.shields.io/npm/v/winston-nr.svg)](https://www.npmjs.com/package/winston-nr) [![License](https://img.shields.io/npm/l/winston-nr.svg)](https://github.com/your-username/winston-nr/blob/main/LICENSE) [![Coverage Status](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](https://github.com/your-username/winston-nr)
 
-A simple, lightweight, and easy-to-use custom transport for Winston logger that exports logs to New Relic using HTTP requests. This library has no external dependencies, ensuring a lightweight and minimalistic solution.
+A simple, lightweight, and easy-to-use custom transport for Winston logger that exports logs to NewRelic using HTTP requests. This library has no external dependencies, ensuring a lightweight and minimalistic solution.
 
 ## Features
 
 - Simple and lightweight library with no external dependencies.
-- Custom transport for exporting logs to New Relic using HTTP requests.
+- Custom transport for exporting logs to NewRelic using HTTP requests.
 - Easy integration with your existing Winston logger configuration.
 - Supports compression of log payloads to optimize network utilization.
-- Optional batching of logs for efficient transmission to the New Relic Logs API.
+- Optional batching of logs for efficient transmission to the NewRelic Logs API.
 - Fine-grained control over batch size and batch timeout for optimal log handling.
 - Full unit test coverage for reliable and robust functionality.
 - Provides a `flush` method to manually flush the transport and ensure all logs are sent.
@@ -59,7 +59,7 @@ process.exit(0);
 
 The `NewRelicTransport` accepts the following options:
 
-- `apiUrl` (required): The URL of the New Relic Logs API.
+- `apiUrl` (required): The URL of the NewRelic Logs API.
 - `apiKey` (required): The API key used to authenticate with the New Relic Logs API.
 - `timeout`: Timeout for the HTTP request in milliseconds (default: 5000).
 - `retries`: Number of times to retry failed requests (default: 0).
