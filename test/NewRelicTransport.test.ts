@@ -2,7 +2,7 @@
 import { jest } from '@jest/globals';
 import nock from 'nock';
 import zlib from 'zlib';
-import NewRelicTransport from './NewRelicTransport.js';
+import NewRelicTransport from '../src/NewRelicTransport';
 
 describe('NewRelicTransport', () => {
   afterEach(() => {

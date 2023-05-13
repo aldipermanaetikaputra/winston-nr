@@ -4,7 +4,7 @@ import zlib from 'zlib';
 import http from 'http';
 import https from 'https';
 
-type NewRelicTransportOptions = TransportStreamOptions & {
+export type NewRelicTransportOptions = TransportStreamOptions & {
   apiUrl: string;
   apiKey: string;
   timeout?: number;
@@ -14,7 +14,7 @@ type NewRelicTransportOptions = TransportStreamOptions & {
   batchTimeout?: number;
 };
 
-class NewRelicTransport extends WinstonTransport {
+export class NewRelicTransport extends WinstonTransport {
   public static DEFAULT_TIMEOUT = 5000;
   public static EXPECTED_STATUS_CODE = 202;
 
