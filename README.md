@@ -26,7 +26,7 @@ npm install winston-nr
 
 ```js
 import winston from 'winston';
-import NewRelicTransport from 'winston-nr';
+import { NewRelicTransport } from 'winston-nr';
 
 // Create the transport and a Winston logger instance and
 const nrTransport = new NewRelicTransport({
