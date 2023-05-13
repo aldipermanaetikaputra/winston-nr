@@ -48,9 +48,8 @@ logger.info('Log message', { test: true });
 await nrTransport.flush();
 // Or, automatically trigger the flush by ending the logger
 await new Promise(resolve =>
-  logger.on('error', resolve).on('close', resolve).on('finish', logger.close)
+  logger.on('error', resolve).on('close', resolve).on('finish', logger.close).end()
 );
-logger.end();
 
 // You can safely exit the app without losing your logs
 process.exit(0);
